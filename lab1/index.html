@@ -1,0 +1,157 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, shrink-to-fit=no"
+    />
+    <title>Bản đồ Hành chính Nam Bộ</title>
+    <style>
+      html,
+      body,
+      #viewDiv {
+        height: 100%;
+        margin: 0;
+      }
+    </style>
+
+    <link
+      rel="stylesheet"
+      href="https://js.arcgis.com/5.0/esri/themes/light/main.css"
+    />
+
+    <script type="module" src="https://js.arcgis.com/5.0/"></script>
+
+    <script type="module">
+      import { NAMBO, DUONG, DAIHOC } from "./data/index.js";
+
+      const [Map, MapView, Graphic, GraphicsLayer] = await $arcgis.import([
+        "@arcgis/core/Map.js",
+        "@arcgis/core/views/MapView.js",
+        "@arcgis/core/Graphic.js",
+        "@arcgis/core/layers/GraphicsLayer.js",
+      ]);
+
+      const map = new Map({
+        basemap: "topo-vector",
+      });
+
+      const view = new MapView({
+        container: "viewDiv",
+        map: map,
+        zoom: 8.5,
+        center: [106, 10],
+      });
+
+      const provinceLayer = new GraphicsLayer({
+        title: "Ranh giới tỉnh/TP",
+        blendMode: "multiply",
+      });
+      const roadLayer = new GraphicsLayer({ title: "Đường cao tốc / Quốc lộ" });
+      const universityLayer = new GraphicsLayer({ title: "Trường đại học" });
+
+      for (const tinh of NAMBO) {
+        provinceLayer.add(
+          new Graphic({
+            geometry: {
+              type: "polygon",
+              rings: [...tinh.rings],
+            },
+            symbol: {
+              type: "simple-fill",
+              color: tinh.fillColor,
+              outline: { color: [17, 24, 39], width: 1 },
+            },
+            attributes: {
+              Name: tinh.name,
+              Population: tinh.population,
+              Area: tinh.area,
+            },
+            popupTemplate: {
+              title: "Tỉnh {Name}",
+              content:
+                "<table>" +
+                "<tr><td>Dân số:</td><td>{Population} người</td></tr>" +
+                "<tr><td>Diện tích:</td><td>{Area} km²</td></tr>" +
+                "</table>",
+            },
+          }),
+        );
+
+        for (const duong of DUONG) {
+          const isHighway = duong.type === "highway";
+          roadLayer.add(
+            new Graphic({
+              geometry: {
+                type: "polyline",
+                paths: [duong.paths],
+              },
+              symbol: {
+                type: "simple-line",
+                color: isHighway ? [220, 50, 50] : [255, 150, 20],
+                width: isHighway ? 2 : 1,
+              },
+              attributes: {
+                Name: duong.name,
+                Length: duong.length,
+                SpeedLimit: duong.speedLimit,
+                Width: duong.width,
+                Provinces: duong.provinces,
+              },
+              popupTemplate: {
+                title: "{Name}",
+                content:
+                  "<table>" +
+                  "<tr><td>Chiều dài:</td><td>{Length} km</td></tr>" +
+                  "<tr><td>Lộ giới:</td><td>{Width} m</td></tr>" +
+                  "<tr><td>Qua các tỉnh:</td><td>{Provinces}</td></tr>" +
+                  "</table>",
+              },
+            }),
+          );
+
+          for (const daihoc of DAIHOC) {
+            universityLayer.add(
+              new Graphic({
+                geometry: {
+                  type: "point",
+                  longitude: daihoc.longitude,
+                  latitude: daihoc.latitude,
+                },
+                symbol: {
+                  type: "picture-marker",
+                  url: "assets/" + daihoc.symbol_url,
+                  width: "28px",
+                  height: "28px",
+                },
+                attributes: {
+                  Name: daihoc.name,
+                  Founded: daihoc.founded,
+                  Faculties: daihoc.faculties,
+                  Students: daihoc.students,
+                  Address: daihoc.address,
+                },
+                popupTemplate: {
+                  title: "{Name}",
+                  content:
+                    "<table>" +
+                    "<tr><td>Năm thành lập:</td><td>{Founded}</td></tr>" +
+                    "<tr><td>Ngành đào tạo:</td><td>{Faculties}</td></tr>" +
+                    "<tr><td>Số sinh viên:</td><td>~{Students} sinh viên</td></tr>" +
+                    "</table>",
+                },
+              }),
+            );
+          }
+        }
+      }
+
+      map.addMany([provinceLayer, roadLayer, universityLayer]);
+    </script>
+  </head>
+
+  <body>
+    <div id="viewDiv"></div>
+  </body>
+</html>
