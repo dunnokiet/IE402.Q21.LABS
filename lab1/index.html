@@ -78,73 +78,73 @@
             },
           }),
         );
+      }
 
-        for (const duong of DUONG) {
-          const isHighway = duong.type === "highway";
-          roadLayer.add(
-            new Graphic({
-              geometry: {
-                type: "polyline",
-                paths: [duong.paths],
-              },
-              symbol: {
-                type: "simple-line",
-                color: isHighway ? [220, 50, 50] : [255, 150, 20],
-                width: isHighway ? 2 : 1,
-              },
-              attributes: {
-                Name: duong.name,
-                Length: duong.length,
-                SpeedLimit: duong.speedLimit,
-                Width: duong.width,
-                Provinces: duong.provinces,
-              },
-              popupTemplate: {
-                title: "{Name}",
-                content:
-                  "<table>" +
-                  "<tr><td>Chiều dài:</td><td>{Length} km</td></tr>" +
-                  "<tr><td>Lộ giới:</td><td>{Width} m</td></tr>" +
-                  "<tr><td>Qua các tỉnh:</td><td>{Provinces}</td></tr>" +
-                  "</table>",
-              },
-            }),
-          );
+      for (const duong of DUONG) {
+        const isHighway = duong.type === "highway";
+        roadLayer.add(
+          new Graphic({
+            geometry: {
+              type: "polyline",
+              paths: [duong.paths],
+            },
+            symbol: {
+              type: "simple-line",
+              color: isHighway ? [220, 50, 50] : [255, 150, 20],
+              width: isHighway ? 2 : 1,
+            },
+            attributes: {
+              Name: duong.name,
+              Length: duong.length,
+              SpeedLimit: duong.speedLimit,
+              Width: duong.width,
+              Provinces: duong.provinces,
+            },
+            popupTemplate: {
+              title: "{Name}",
+              content:
+                "<table>" +
+                "<tr><td>Chiều dài:</td><td>{Length} km</td></tr>" +
+                "<tr><td>Lộ giới:</td><td>{Width} m</td></tr>" +
+                "<tr><td>Qua các tỉnh:</td><td>{Provinces}</td></tr>" +
+                "</table>",
+            },
+          }),
+        );
+      }
 
-          for (const daihoc of DAIHOC) {
-            universityLayer.add(
-              new Graphic({
-                geometry: {
-                  type: "point",
-                  longitude: daihoc.longitude,
-                  latitude: daihoc.latitude,
-                },
-                symbol: {
-                  type: "picture-marker",
-                  url: "assets/" + daihoc.symbol_url,
-                  width: "28px",
-                  height: "28px",
-                },
-                attributes: {
-                  Name: daihoc.name,
-                  Founded: daihoc.founded,
-                  Faculties: daihoc.faculties,
-                  Students: daihoc.students,
-                  Address: daihoc.address,
-                },
-                popupTemplate: {
-                  title: "{Name}",
-                  content:
-                    "<table>" +
-                    "<tr><td>Năm thành lập:</td><td>{Founded}</td></tr>" +
-                    "<tr><td>Ngành đào tạo:</td><td>{Faculties}</td></tr>" +
-                    "<tr><td>Số sinh viên:</td><td>~{Students} sinh viên</td></tr>" +
-                    "</table>",
-                },
-              }),
-            );
-          }
-        }
+      for (const daihoc of DAIHOC) {
+        universityLayer.add(
+          new Graphic({
+            geometry: {
+              type: "point",
+              longitude: daihoc.longitude,
+              latitude: daihoc.latitude,
+            },
+            symbol: {
+              type: "picture-marker",
+              url: "assets/" + daihoc.symbol_url,
+              width: "28px",
+              height: "28px",
+            },
+            attributes: {
+              Name: daihoc.name,
+              Founded: daihoc.founded,
+              Faculties: daihoc.faculties,
+              Students: daihoc.students,
+              Address: daihoc.address,
+            },
+            popupTemplate: {
+              title: "{Name}",
+              content:
+                "<table>" +
+                "<tr><td>Năm thành lập:</td><td>{Founded}</td></tr>" +
+                "<tr><td>Ngành đào tạo:</td><td>{Faculties}</td></tr>" +
+                "<tr><td>Số sinh viên:</td><td>~{Students} sinh viên</td></tr>" +
+                "</table>",
+            },
+          }),
+        );
       }
 
       map.addMany([provinceLayer, roadLayer, universityLayer]);
