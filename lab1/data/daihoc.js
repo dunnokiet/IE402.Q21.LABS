@@ -71,6 +71,24 @@ const DAIHOC = [
     faculties: "Sư phạm - Kỹ thuật",
     students: 8000,
   },
+  {
+    longitude: 106.4394683,
+    latitude: 10.7923338,
+    symbol_url: "ttu.png",
+    name: "ĐH Tân Tạo (Long An)",
+    founded: 2010,
+    faculties: "Y khoa - Kinh tế",
+    students: 3000,
+  },
+  {
+    longitude: 105.7680404,
+    latitude: 10.029939,
+    symbol_url: "ctu.png",
+    name: "ĐH Cần Thơ",
+    founded: 1966,
+    faculties: "Nông nghiệp - Đa ngành",
+    students: 45000,
+  },
 ];
 
 export default DAIHOC;
