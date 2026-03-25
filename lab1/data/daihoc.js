@@ -107,6 +107,24 @@ const DAIHOC = [
     faculties: "Sư phạm - Đa ngành",
     students: 12000,
   },
+  {
+    longitude: 106.3313494,
+    latitude: 9.9343155,
+    symbol_url: "tvu.png",
+    name: "ĐH Trà Vinh",
+    founded: 2006,
+    faculties: "Đa ngành - Y tế",
+    students: 20000,
+  },
+  {
+    longitude: 105.429764,
+    latitude: 10.3716611,
+    symbol_url: "agu.png",
+    name: "ĐH An Giang",
+    founded: 1999,
+    faculties: "Đa ngành - Sư phạm",
+    students: 10000,
+  },
 
 ];
 
