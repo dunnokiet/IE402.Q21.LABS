@@ -26,7 +26,7 @@ const DAIHOC = [
     faculties: "Y Dược",
     students: 15000,
   },
-    {
+  {
     longitude: 106.6658946,
     latitude: 10.7735398,
     symbol_url: "pnt.jpg",
@@ -34,6 +34,24 @@ const DAIHOC = [
     founded: 1989,
     faculties: "Y Dược",
     students: 10000,
+  },
+ {
+    longitude: 106.8053863,
+    latitude: 10.8805585,
+    symbol_url: "hcmut.png",
+    name: "ĐH Bách khoa - ĐHQG TP.HCM",
+    founded: 1957,
+    faculties: "Kỹ thuật - Công nghệ",
+    students: 27000,
+  },
+  {
+    longitude: 106.6669459,
+    latitude: 10.8057524,
+    symbol_url: "hcmue.png",
+    name: "ĐH Sư phạm TP.HCM",
+    founded: 1976,
+    faculties: "Sư phạm - Giáo dục",
+    students: 20000,
   },
 ];
 
