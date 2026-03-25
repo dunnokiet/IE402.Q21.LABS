@@ -53,6 +53,24 @@ const DAIHOC = [
     faculties: "Sư phạm - Giáo dục",
     students: 20000,
   },
+  {
+    longitude: 105.7507887,
+    latitude: 10.0347876,
+    symbol_url: "ctump.png",
+    name: "ĐH Y Dược Cần Thơ",
+    founded: 2002,
+    faculties: "Y - Dược",
+    students: 13000,
+  },
+    {
+    longitude: 106.3528313,
+    latitude: 10.3649056,
+    symbol_url: "tgu.png",
+    name: "ĐH Tiền Giang",
+    founded: 2005,
+    faculties: "Sư phạm - Kỹ thuật",
+    students: 8000,
+  },
 ];
 
 export default DAIHOC;
