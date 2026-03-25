@@ -89,6 +89,25 @@ const DAIHOC = [
     faculties: "Nông nghiệp - Đa ngành",
     students: 45000,
   },
+   {
+    longitude: 106.6717847,
+    latitude: 10.9806946,
+    symbol_url: "tdmu.png",
+    name: "ĐH Thủ Dầu Một (Bình Dương)",
+    founded: 2009,
+    faculties: "Đa ngành",
+    students: 19000,
+  },
+  {
+    longitude: 106.8595455,
+    latitude: 10.9585326,
+    symbol_url: "dnu.png",
+    name: "ĐH Đồng Nai",
+    founded: 1976,
+    faculties: "Sư phạm - Đa ngành",
+    students: 12000,
+  },
+
 ];
 
 export default DAIHOC;
