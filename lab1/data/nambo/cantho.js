@@ -4058,5 +4058,3 @@ const CANTHO = {
     [105.287734419107196, 10.149382521416104],
   ],
 };
-
-export default CANTHO;

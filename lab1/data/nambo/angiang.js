@@ -8903,5 +8903,3 @@ const ANGIANG = {
     ],
   ],
 };
-
-export default ANGIANG;

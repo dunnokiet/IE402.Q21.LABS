@@ -3776,5 +3776,3 @@ const DONGTHAP = {
     [106.733894348144275, 10.479878483930628],
   ],
 };
-
-export default DONGTHAP;

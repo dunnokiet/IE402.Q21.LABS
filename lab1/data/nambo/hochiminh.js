@@ -27357,5 +27357,3 @@ const HOCHIMINH = {
     ],
   ],
 };
-
-export default HOCHIMINH;

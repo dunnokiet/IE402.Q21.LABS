@@ -1562,5 +1562,3 @@ const VINHLONG = {
     [106.746612042188403, 10.184398065921457],
   ],
 };
-
-export default VINHLONG;

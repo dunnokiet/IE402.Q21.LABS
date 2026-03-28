@@ -5421,5 +5421,3 @@ const CAMAU = {
     ],
   ],
 };
-
-export default CAMAU;

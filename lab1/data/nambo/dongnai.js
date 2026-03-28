@@ -18965,5 +18965,3 @@ const DONGNAI = {
     [106.94026082754111, 11.350460114634394],
   ],
 };
-
-export default DONGNAI;

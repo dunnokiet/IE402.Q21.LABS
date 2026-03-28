@@ -7329,5 +7329,3 @@ const TAYNINH = {
     [106.189978569745776, 10.791289514894773],
   ],
 };
-
-export default TAYNINH;

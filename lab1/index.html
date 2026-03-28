@@ -23,8 +23,28 @@
 
     <script type="module" src="https://js.arcgis.com/5.0/"></script>
 
+    <script src="./data/nambo/angiang.js"></script>
+    <script src="./data/nambo/camau.js"></script>
+    <script src="./data/nambo/cantho.js"></script>
+    <script src="./data/nambo/dongnai.js"></script>
+    <script src="./data/nambo/dongthap.js"></script>
+    <script src="./data/nambo/hochiminh.js"></script>
+    <script src="./data/nambo/tayninh.js"></script>
+    <script src="./data/nambo/vinhlong.js"></script>
+    <script src="./data/duong.js"></script>
+    <script src="./data/daihoc.js"></script>
+
     <script type="module">
-      import { NAMBO, DUONG, DAIHOC } from "./data/index.js";
+      const NAMBO = [
+        ANGIANG,
+        CAMAU,
+        CANTHO,
+        DONGNAI,
+        DONGTHAP,
+        HOCHIMINH,
+        TAYNINH,
+        VINHLONG,
+      ];
 
       const [Map, MapView, Graphic, GraphicsLayer] = await $arcgis.import([
         "@arcgis/core/Map.js",
@@ -123,7 +143,7 @@
             },
             symbol: {
               type: "picture-marker",
-              url: "assets/" + daihoc.symbol_url,
+              url: daihoc.symbol_url,
               width: "28px",
               height: "28px",
             },
