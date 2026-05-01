@@ -1,0 +1,170 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, shrink-to-fit=no"
+    />
+    <title>Nhà hát Opéra Garnier</title>
+    <style>
+      html,
+      body,
+      #viewDiv {
+        height: 100%;
+        margin: 0;
+      }
+    </style>
+    <link
+      rel="stylesheet"
+      href="https://js.arcgis.com/5.0/esri/themes/light/main.css"
+    />
+    <script type="module" src="https://js.arcgis.com/5.0/"></script>
+    <script type="module">
+      const [Map, SceneView, GeoJSONLayer, reactiveUtils] =
+        await $arcgis.import([
+          "@arcgis/core/Map.js",
+          "@arcgis/core/views/SceneView.js",
+          "@arcgis/core/layers/GeoJSONLayer.js",
+          "@arcgis/core/core/reactiveUtils.js",
+        ]);
+
+      const map = new Map({
+        basemap: "topo-vector",
+        ground: "world-elevation",
+      });
+
+      const parts = [
+        { file: "tuong_nha_1", color: [215, 194, 158] },
+        { file: "tuong_nha_2", color: [215, 194, 158] },
+        { file: "tuong_nha_3", color: [215, 194, 158] },
+        { file: "tuong_nha_4", color: [215, 194, 158] },
+        { file: "tuong_nha_5", color: [215, 194, 158] },
+        { file: "mai_nha_1", color: [158, 170, 215] },
+        { file: "mai_nha_2", color: [92, 137, 112] },
+        { file: "mai_nha_3", color: [137, 112, 68] },
+        { file: "mai_nha_4", color: [158, 187, 215] },
+        { file: "bac_thang_1", color: [215, 194, 158] },
+        { file: "bac_thang_2", color: [215, 194, 158] },
+        { file: "chi_tiet_1", color: [245, 245, 122] },
+        { file: "chi_tiet_2", color: [104, 104, 104] },
+        { file: "cot_nha_1", color: [215, 194, 158] },
+        { file: "cot_nha_2", color: [134, 114, 103] },
+        { file: "cot_nha_3", color: [134, 114, 103] },
+        { file: "cua_so_1", color: [130, 130, 130] },
+        { file: "cua_so_2", color: [83, 78, 87] },
+        { file: "cua_so_3", color: [94, 76, 64] },
+        { file: "tran_nha_1", color: [199, 215, 158] },
+        { file: "tran_nha_2", color: [199, 215, 158] },
+        { file: "tran_nha_3", color: [199, 215, 158] },
+        { file: "tran_nha_4", color: [199, 215, 158] },
+        { file: "mong_nha_1", color: [78, 78, 78] },
+      ];
+
+      const layers = parts.map(
+        ({ file, color }) =>
+          new GeoJSONLayer({
+            url: `./data/${file}.geojson`,
+            elevationInfo: { mode: "relative-to-ground" },
+            popupEnabled: false,
+            renderer: {
+              type: "simple",
+              symbol: {
+                type: "polygon-3d",
+                symbolLayers: [
+                  {
+                    type: "extrude",
+                    material: { color: [...color, 1] },
+                  },
+                ],
+              },
+              visualVariables: [
+                {
+                  type: "size",
+                  field: "Height",
+                  valueUnit: "meters",
+                },
+              ],
+            },
+          }),
+      );
+
+      map.addMany(layers);
+
+      const view = new SceneView({
+        container: "viewDiv",
+        map: map,
+        camera: {
+          position: [2.33, 48.8695, 173],
+          heading: 25,
+          tilt: 71,
+        },
+        popup: {
+          autoOpenEnabled: false,
+        },
+      });
+
+      let highlightHandles = [];
+
+      view.on("click", async (event) => {
+        const hitTest = await view.hitTest(event);
+        const hits = hitTest.results.filter((r) =>
+          layers.includes(r.graphic?.layer),
+        );
+
+        highlightHandles.forEach((h) => h.remove());
+        highlightHandles = [];
+
+        if (hits.length === 0) {
+          view.popup.close();
+          return;
+        }
+
+        for (const layer of layers) {
+          try {
+            const lv = await view.whenLayerView(layer);
+            const result = await layer.queryFeatures({
+              where: "1=1",
+              returnGeometry: false,
+            });
+            const oids = result.features.map((f) => f.getObjectId());
+            if (oids.length > 0) {
+              const handle = lv.highlight(oids);
+              highlightHandles.push(handle);
+            }
+          } catch (e) {
+            /* bỏ qua layer lỗi */
+          }
+        }
+
+        view.popup.open({
+          title: "Nhà hát Opéra Garnier",
+          content: `
+            <b>Năm xây dựng:</b> 1875<br>
+            <b>Kiến trúc sư:</b> Charles Garnier<br>
+            <b>Địa chỉ:</b> 8 Rue Scribe, 75009 Paris, Pháp<br>
+            <b>Chiều cao:</b> 73,6 mét<br>
+            <b>Chiều dài:</b> 172 mét<br>
+            <b>Chiều rộng:</b> 125 mét<br>
+            <b>Sức chứa:</b> 1.979 chỗ ngồi<br>
+            <b>Phong cách:</b> Beaux-Arts, kết hợp Baroque, cổ điển và Phục hưng
+          `,
+          location: event.mapPoint,
+        });
+      });
+
+      reactiveUtils.watch(
+        () => view.popup.visible,
+        (visible) => {
+          if (!visible) {
+            highlightHandles.forEach((h) => h.remove());
+            highlightHandles = [];
+          }
+        },
+      );
+    </script>
+  </head>
+  <body>
+    <div id="viewDiv"></div>
+  </body>
+</html>
